@@ -1,5 +1,9 @@
 ## Welcome to Florence's GitHub Pages
 
+test-sketch.js
+test-sketch.html
+libraries/p5.js
+
 
 ### Markdown
 
