@@ -1,8 +1,15 @@
-<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'>
+mapboxgl.accessToken = 'pk.eyJ1IjoieWFubmZsbyIsImEiOiJjazVoYThmMDIwMTBxM2ptcWJ5eXZlMTdxIn0.eYnOpNarVHegeFAgoc50iA';
+</script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
 
-<div id='map'></div>
-<div class='map-overlay' id='features'><h2>US population density</h2><div id='pd'><p>Hover over a state!</p></div></div>
+<div id='map'>
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  style: 'mapbox://styles/yannflo/ck6pg5707186y1ioeotor8hbn // replace this with your style URL
+});
+</div>
+<div class='map-overlay' id='features'><h2>US population density</h2><div id='pd'><p>Hover over aprovince</p></div></div>
 <div class='map-overlay' id='legend'></div>
 
 body {
@@ -75,9 +82,38 @@ p {
   margin-right: 5px;
 }
 
-mapboxgl.accessToken = 'pk.eyJ1IjoieWFubmZsbyIsImEiOiJjazVoYThmMDIwMTBxM2ptcWJ5eXZlMTdxIn0.eYnOpNarVHegeFAgoc50iA';
+map.on('load', function() {
+  // the rest of the code will go in here
+var layers = ['0-10’, '11-50’, ’51-100’, ’101-500’, ’501-1000’, ‘1001-50000, ‘50000+’];
+var colors = [‘#FFF7EC’, ‘#FEE8C8’, ‘#FDB981, ‘#EF6548, ‘#B30000, ‘#4F3521];
 
-var map = new mapboxgl.Map({
-  container: 'map', // container id
-  style: 'mapbox://styles/yannflo/ck6oahe0k0f9l1ipe9fo65ja3' // replace this with your style URL
+for (i = 0; i < layers.length; i++) {
+  var layer = layers[i];
+  var color = colors[i];
+  var item = document.createElement('div');
+  var key = document.createElement('span');
+  key.className = 'legend-key';
+  key.style.backgroundColor = color;
+
+  var value = document.createElement('span');
+  value.innerHTML = layer;
+  item.appendChild(key);
+  item.appendChild(value);
+  legend.appendChild(item);
+}
+
+map.on('mousemove', function(e) {
+  var covid-19 = map.queryRenderedFeatures(e.point, {
+    layers: [‘covid-19]
+  });
+
+  if (covid-19.length > 0) {
+    document.getElementById('pd').innerHTML = '<h3><strong>' + covid-19[0].properties.name + '</strong></h3><p><strong><em>' + covid-19[0].properties.Confirmed_Case + '</strong> confirmed cases as of February 15, 2020 (GMT-8)</em></p>';
+  } else {
+    document.getElementById('pd').innerHTML = '<p>Hover over a province for the number of confirmed cases.</p>';
+  }
 });
+
+
+});
+
