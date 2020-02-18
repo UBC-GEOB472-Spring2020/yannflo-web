@@ -15,4 +15,9 @@
 
 ##As I mentioned above, this is my debut web map that marks as the beginning of my web mapping adventure. There are spaces for improvement. For example, I want to incoporate another mode to view the case data. Specifically, users can click on a "density of epidemic" tab to see one in how many people in this area are diagnosed with COVID-19.
 
+##Reference:
+##Map of province in China: https://github.com/chemzqm/geomap/blob/master/china-province.geojson
+##National Health Commission (NHC) http://www.nhc.gov.cn/
+##DingXiangYuan http://www.dxy.cn/
+
 
