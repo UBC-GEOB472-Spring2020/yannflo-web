@@ -16,7 +16,7 @@
 ### As I mentioned above, this is my debut web map that marks as the beginning of my web mapping adventure. There are spaces for improvement. For example, I want to incoporate another mode to view the case data. Specifically, users can click on a "density of epidemic" tab to see one in how many people in this area are diagnosed with COVID-19.
 
 ### My map URL:
-https://ubc-geob472-spring2020.github.io/yannflo-web/web-mapping.html
+https://ubc-geob472-spring2020.github.io/yannflo-web/web-mapping1.html
 
 ## Reference:
 ### Map of province in China: https://github.com/chemzqm/geomap/blob/master/china-province.geojson
