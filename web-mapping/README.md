@@ -3,7 +3,8 @@
 # Reflection Analysis
 
 ## In this lab, I tried to make a map that showed the numbers of confirmed coronavirus (COVID-19) cases in each province in China. 
-## As I am still exploring the web-mapping, I have not include a case density map (#case/#total population), which better reflect geospatial pattern of severity in this outbreak.
+
+##As I am still exploring the web-mapping, I have not include a case density map (#case/#total population), which better reflect geospatial pattern of severity in this outbreak.
 
 ##This map is designed for my family and friends who live in China at the moment. At the beginning of the outbreak, I worried so much about my family who live in Guangdong Province, which was the epic center of SARS 17 years ago.
 ##To raise their awareness, I spent most of my spare time collecting and screening information from reliable sources, and send many articles from various news outlets and other information I received from my local friends to them. That was before the lockdown of Wuhan City.
