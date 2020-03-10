@@ -1,12 +1,10 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html>
+  <head>
 
 <script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
   
-
-
-
-
   </head>
   <body>
   
@@ -14,6 +12,7 @@
     </div>
 <div class='map-overlay' id='features'><h2>US population density</h2><div id='pd'><p>Hover over a province</p></div></div>
 <div class='map-overlay' id='legend'></div>
+    
     <script>
       mapboxgl.accessToken = 'pk.eyJ1IjoieWFubmZsbyIsImEiOiJjazVoYThmMDIwMTBxM2ptcWJ5eXZlMTdxIn0.eYnOpNarVHegeFAgoc50iA';
 var map = new mapboxgl.Map({
@@ -128,3 +127,5 @@ map.on('mousemove', function(e) {
 });
 
 </script>
+    </body>
+</html>
