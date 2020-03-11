@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>My 2019 Journey</title>
+  <title>Store Locator</title>
   <meta name="robots" content="noindex, nofollow" />
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" />
@@ -11,6 +11,15 @@
   <link href="https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.css" rel="stylesheet" />
 
   <style>
+    .marker {
+      background-image: url('mapbox-icon.png');
+      background-size: cover;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
     body {
       color: #404040;
       font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
@@ -32,6 +41,7 @@
     }
 
     a {
+      font-size: 20px;
       color: #404040;
       text-decoration: none;
     }
@@ -178,6 +188,7 @@
   <div class="sidebar">
     <div class="heading">
       <h1>My 2019 Journey</h1>
+      <p>Please click on city names to explore.</p>
     </div>
     <div id="listings" class="listings"></div>
   </div>
@@ -280,8 +291,7 @@
             },
             "geometry": {
               "type": "Point",
-              "coordinates": [4.8945, 52.3667
-              ]
+              "coordinates": [4.8945, 52.3667]
             }
           },
         ]
@@ -296,7 +306,7 @@
     locations.eachLayer(function(locale) {
       // Iterate over each marker.
     });
-    
+
     var listings = document.getElementById('listings');
     var locations = L.mapbox.featureLayer().addTo(map);
 
@@ -314,6 +324,12 @@
     }
 
     locations.eachLayer(function(locale) {
+      locale.setIcon(L.icon({
+        iconUrl: 'marker.png',
+        iconSize: [56, 56],
+        iconAnchor: [28, 28],
+        popupAnchor: [0, -34]
+      }));
       // Shorten locale.feature.properties to just `prop` so we're not
       // writing this long form over and over again.
       var prop = locale.feature.properties;
@@ -355,7 +371,7 @@
       // Marker interaction
       locale.on('click', function(e) {
         // 1. center the map on the selected marker.
-        map.panTo(locale.getLatLng());
+        map.panTo(locale.getLatLng(), );
 
         // 2. Set active the markers associated listing.
         setActive(listing);
