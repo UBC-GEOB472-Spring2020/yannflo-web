@@ -1,4 +1,4 @@
-![alt text]https://ubc-geob472-spring2020.github.io/yannflo-web/lab2/journey.png "my2019journey")
+![alt text] https://ubc-geob472-spring2020.github.io/yannflo-web/lab2/journey.png "my2019journey")
 
 # Lab 2 Florence's 2019 Journey
 
