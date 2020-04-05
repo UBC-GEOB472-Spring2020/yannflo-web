@@ -1,0 +1,140 @@
+<!DOCTYPE html><html><head>
+  <title>Population Density and Income in Zhuhai</title>
+  <script src="dist.min.js"></script>
+  <script src="mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet">
+
+  <style type="text/css">
+
+    #tooltip:empty {
+      display: none;
+    }
+
+    #tooltip {
+      font-family: Helvetica, Arial, sans-serif;
+      position: absolute;
+      padding: 4px;
+      margin: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      max-width: 300px;
+      font-size: 10px;
+      z-index: 9;
+      pointer-events: none;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="tooltip"></div>
+  <div id="map" style="width: 600px; height: 500px;"></div>
+
+
+  <script type="text/javascript">
+    const {
+      DeckGL,
+      GeoJsonLayer
+    } = deck;
+
+    const COLOR_SCALE = [
+      // negative
+      //[65, 182, 196],
+      //[127, 205, 187],
+      //[199, 233, 180],
+      [255, 255, 204],
+
+      // positive
+      [255, 255, 204],
+      [255, 237, 160],
+      [255, 255, 102],
+      [255, 219, 77],
+      [255, 204, 0],
+      [230, 184, 0],
+      [255, 166, 77],
+      [252, 78, 42],
+      [227, 26, 28],
+      [189, 0, 38],
+      [128, 0, 38] //none
+    ];
+
+    const geojsonLayer = new GeoJsonLayer({
+      data: 'https://ubc-geob472-spring2020.github.io/yannflo-web/finalproject/cityaccessibility-zhuhai.geojson',
+      opacity: 0.8,
+      stroked: false,
+      filled: true,
+      extruded: true,
+      wireframe: true,
+      fp64: true,
+
+      getElevation: f => Math.sqrt(f.properties.POP_DENSIT) * 55,
+      getFillColor: f => colorScale(f.properties.MIXTURE),
+      getLineColor: [255, 255, 255],
+
+      pickable: true,
+      onHover: updateTooltip
+    });
+
+    new DeckGL({
+      mapboxApiAccessToken: 'pk.eyJ1IjoiYWwtMTIyMiIsImEiOiJjazZsYTY4cnowY3pnM21ueXV4dG9oOThmIn0.ItsauRnRfqTxj63LjBD3Vw',
+      mapStyle: 'mapbox://styles/mapbox/outdoors-v11',
+      latitude: 22.2710,
+      longitude: 113.4,
+      zoom: 10,
+      maxZoom: 16,
+      pitch: 45,
+      layers: [geojsonLayer]
+
+
+    });
+
+
+    function colorScale(x) {
+      const i = Math.round(x * 5) + 2;
+      if (x < 0) {
+        return COLOR_SCALE[i] || COLOR_SCALE[0];
+      }
+      return COLOR_SCALE[i] || COLOR_SCALE[COLOR_SCALE.length - 1];
+    }
+
+    function updateTooltip({
+      x,
+      y,
+      object
+    }) {
+      const tooltip = document.getElementById('tooltip');
+
+      if (object) {
+        tooltip.style.top = `${y}px`;
+        tooltip.style.left = `${x}px`;
+        tooltip.innerHTML = `
+    <div><b>Population Density &nbsp;</b></div>
+    <div><div>${object.properties.POP_DENSIT} </div></div>
+    <div><b>Mixed Use Level</b></div>
+    <div>${object.properties.MIXTURE}</div>
+    `;
+      } else {
+        tooltip.innerHTML = '';
+      }
+    }
+
+    //camera------------------------------------------------
+    function rotateCamera(timestamp) {
+// clamp the rotation between 0 -360 degrees
+// Divide timestamp by 100 to slow rotation to ~10 degrees / sec
+map.rotateTo((timestamp / 100) % 360, { duration: 0 });
+// Request the next frame of the animation.
+requestAnimationFrame(rotateCamera);
+}
+
+map.on('load', function() {
+// Start the animation.
+rotateCamera(0);
+
+
+
+
+  </script>
+
+
+</body></html>
