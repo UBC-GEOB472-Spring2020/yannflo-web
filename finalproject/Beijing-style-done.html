@@ -10,7 +10,7 @@
   <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
   <style type="text/css">
-
+    
     #tooltip:empty {
       display: none;
     }
@@ -29,11 +29,12 @@
     }
     #console {
       position: absolute;
-      width: 240px;
+      width: 212px;
+      Height: 68px;    
       padding: 20px 4px;
       background-color: white;
       font-family: 'Open Sans', sans-serif;
-      font-size: 12px;
+      font-size: 11px;
     }
     #menu {
       position: absolute;
@@ -49,7 +50,7 @@
 
 .row {
   height: 12px;
-  width: 100%;
+  width: 95%;
 }
 
 .colors {
@@ -71,7 +72,7 @@
 
 <body>
   <div id="tooltip"></div>
-  <div id="mapid" style="width: 600px; height: 500px;"></div>
+  <div id="mapid" style="width: 600px; height: 350px;"></div>
   <div id='console'>
   <div class='session'>
     <h2>Mixed Use Level</h2>
@@ -145,9 +146,9 @@
     var mapid = new DeckGL({
       mapboxApiAccessToken: 'pk.eyJ1IjoiYWwtMTIyMiIsImEiOiJjazZsYTY4cnowY3pnM21ueXV4dG9oOThmIn0.ItsauRnRfqTxj63LjBD3Vw',
       mapStyle: mapstyle,    // line102
-      latitude: 40.113,
+      latitude: 39.98,
       longitude: 116.403,
-      zoom: 8.6,
+      zoom: 8.2,
       maxZoom: 16,
       pitch: 45,
       layers: geojsonLayer
