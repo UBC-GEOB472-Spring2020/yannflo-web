@@ -87,12 +87,14 @@
   </div>
 </div>
   <div id="menu">
-    <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
-    <label for="streets">streets</label>
-    <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+  <div id="menu">
+     <input id="dark-v10" type="radio" name="rtoggle" value="dark" checked="checked">
     <label for="dark">dark</label>
+    <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+    <label for="streets">streets</label>
     <input id="satellite-v9" type="radio" name="rtoggle" value="satellite">
     <label for="satellite">satellite</label>
+  </div>
   </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -140,7 +142,7 @@
      document.getElementById(data).checked=true;
     }
     else{
-      mapstyle='mapbox://styles/mapbox/streets-v11';
+      mapstyle='mapbox://styles/mapbox/dark-v10';
     }
 //---------basemap,tileset----------------------------------------
     var mapid = new DeckGL({
