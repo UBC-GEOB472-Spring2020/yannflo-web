@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Population Density and Income in Zhuhai</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://ubc-geob472-spring2020.github.io/yannflo-web/finalproject/dist.min.js"></script>
+  <script src="https://ubc-geob472-spring2020.github.io/yannflo-web/finalproject/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
+  <style type="text/css">
+
+    #tooltip:empty {
+      display: none;
+    }
+
+    #tooltip {
+      font-family: Helvetica, Arial, sans-serif;
+      position: absolute;
+      padding: 4px;
+      margin: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      max-width: 300px;
+      font-size: 10px;
+      z-index: 9;
+      pointer-events: none;
+    }
+    #console {
+      position: absolute;
+    width: 240px;
+    padding: 20px 4px;
+    background-color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    }
+    #menu {
+      position: absolute;
+      background: #fff;
+      padding: 10px;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+
+    .session {
+  margin-bottom: 20px;
+}
+
+.row {
+  height: 12px;
+  width: 100%;
+}
+
+.colors {
+  background: linear-gradient(to right,
+    #FFFFCC, #FFEDA0, #FFFF66, #FFDB4D, #FFCC4D, #FFCC00, #E6B800, #FFA64D, #FC4E2A, #E31A1C, #BD0026, #800026);
+  margin-bottom: 5px;
+}
+
+.label {
+  width: 23%;
+  display: inline-block;
+  text-align: center;
+
+}
+
+  </style>
+</head>
+
+<body>
+  <div id="tooltip"></div>
+  <div id="mapid" style="width: 600px; height: 500px;"></div>
+  <div id='console'>
+  <div class='session'>
+    <h2>Mixed Use Level</h2>
+    <div class='row colors'>
+    </div>
+    <div class='row labels'>
+      <div class='label'>-1</div>
+      <div class='label'>0</div>
+      <div class='label'>1</div>
+      <div class='label'>2</div>
+    </div>
+  </div>
+</div>
+  <div id="menu">
+    <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
+    <label for="streets">streets</label>
+    <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+    <label for="dark">dark</label>
+    <input id="satellite-v9" type="radio" name="rtoggle" value="satellite">
+    <label for="satellite">satellite</label>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript">
+    const {
+      DeckGL,
+      GeoJsonLayer
+    } = deck;
+
+    const COLOR_SCALE = [
+      // negative
+      //[65, 182, 196],
+      //[127, 205, 187],
+      //[199, 233, 180],
+      [255, 255, 204],
+
+      // positive
+      [255, 255, 204],
+      [255, 237, 160],
+      [255, 255, 102],
+      [255, 219, 77], //FFDB4D
+      [255, 204, 0], //FFCC00
+      [230, 184, 0], //E6B800
+      [255, 166, 77], //FFA64D
+      [252, 78, 42], //FC4E2A
+      [227, 26, 28], //E31A1C
+      [189, 0, 38], //BD0026
+      [128, 0, 38] //800026
+    ];
+
+//-------------3Dlayer---------------------------------
+    const geojsonLayer = new GeoJsonLayer({
+      data: 'https://ubc-geob472-spring2020.github.io/yannflo-web/finalproject/cityaccessibility-zhuhai.geojson',
+      opacity: 0.8,
+      stroked: false,
+      filled: true,
+      extruded: true,
+      wireframe: true,
+      fp64: true,
+
+      getElevation: f => Math.sqrt(f.properties.POP_DENSIT) * 55,
+      getFillColor: f => colorScale(f.properties.MIXTURE),
+      getLineColor: [255, 255, 255],
+
+      pickable: true,
+      onHover: updateTooltip
+    });
+    var data=window.sessionStorage.getItem('mapS');
+    var mapstyle;    //line115
+    // window.alert(data);
+    if (data) {
+     mapstyle='mapbox://styles/mapbox/'+data;
+
+     document.getElementById(data).checked=true;
+    }
+    else{
+      mapstyle='mapbox://styles/mapbox/streets-v11';
+    }
+//---------basemap,tileset----------------------------------------
+    var mapid = new DeckGL({
+      mapboxApiAccessToken: 'pk.eyJ1IjoiYWwtMTIyMiIsImEiOiJjazZsYTY4cnowY3pnM21ueXV4dG9oOThmIn0.ItsauRnRfqTxj63LjBD3Vw',
+      mapStyle: mapstyle,    // line102
+      latitude: 22.2710,
+      longitude: 113.4,
+      zoom: 10,
+      maxZoom: 16,
+      pitch: 45,
+      layers: geojsonLayer
+    }
+    );
+
+
+    //--------------------setstyle--------------------------
+
+    var layerList = document.getElementById('menu');
+    var inputs = layerList.getElementsByTagName('input');
+
+    function switchLayer(layer) {
+      var layerId = layer.target.id;
+      // deckgl.mapStyle='mapbox://styles/mapbox/' + layerId;
+      mapstyle='mapbox://styles/mapbox/' + layerId;
+
+      // window.alert(de);
+    // deckgl.setStyle=mapstyle;
+    window.sessionStorage.setItem('mapS',layerId);
+    location.reload();
+
+    }
+
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].onclick = switchLayer;
+    }
+ //----------------------------------------------
+
+    function colorScale(x) {
+      const i = Math.round(x * 5) + 2;
+      if (x < 0) {
+        return COLOR_SCALE[i] || COLOR_SCALE[0];
+      }
+      return COLOR_SCALE[i] || COLOR_SCALE[COLOR_SCALE.length - 1];
+    }
+
+    function updateTooltip({
+      x,
+      y,
+      object
+    }) {
+      const tooltip = document.getElementById('tooltip');
+
+      if (object) {
+        tooltip.style.top = `${y}px`;
+        tooltip.style.left = `${x}px`;
+        tooltip.innerHTML = `
+    <div><b>Population Density &nbsp;</b></div>
+    <div><div>${object.properties.POP_DENSIT} </div></div>
+    <div><b>Mixed Use Level</b></div>
+    <div>${object.properties.MIXTURE}</div>
+    `;
+      } else {
+        tooltip.innerHTML = '';
+      }
+    }
+  </script>
+</body>
+
+</html>
